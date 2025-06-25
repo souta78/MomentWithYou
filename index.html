@@ -37,7 +37,6 @@
             padding: 0 20px;
         }
 
-        /* Header Section */
         .header {
             text-align: center;
             padding: 80px 0 60px;
@@ -67,7 +66,6 @@
             transform: translateY(20px);
         }
 
-        /* Gallery Grid - Masonry Style */
         .gallery {
             columns: 4;
             column-gap: 20px;
@@ -104,7 +102,6 @@
             transform: scale(1.03);
         }
 
-        /* Error State */
         .error-message {
             text-align: center;
             padding: 60px 20px;
@@ -141,7 +138,6 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Responsive Design */
         @media (max-width: 1200px) {
             .gallery {
                 columns: 3;
@@ -168,13 +164,13 @@
 @media (max-width: 480px) {
   .gallery {
     columns: 2;
-    column-gap: 12px; /* Biar gak dempet */
+    column-gap: 12px; 
     padding: 0 12px;
   }
 
   .photo-card {
     margin-bottom: 14px;
-    break-inside: avoid; /* Penting agar gak potong foto */
+    break-inside: avoid; 
     border-radius: 10px;
   }
 
@@ -183,7 +179,7 @@
   }
 }
 
-        /* Lightbox for full-size viewing */
+
         .lightbox {
             display: none;
             position: fixed;
@@ -224,7 +220,7 @@
 
 
 
-        /* Hide scrollbar */
+
         ::-webkit-scrollbar {
             width: 0px;
             background: transparent;
@@ -234,12 +230,11 @@
             background: transparent;
         }
 
-        /* For Firefox */
         html {
             scrollbar-width: none;
         }
 
-        /* For IE and Edge */
+
         body {
             -ms-overflow-style: none;
         }
@@ -263,9 +258,9 @@
 
 .noselect {
   user-select: none;
-  -webkit-user-select: none;  /* Safari */
-  -moz-user-select: none;     /* Firefox */
-  -ms-user-select: none;      /* IE/Edge */
+  -webkit-user-select: none;  
+  -moz-user-select: none;    
+  -ms-user-select: none;    
 }
 
     </style>
@@ -289,7 +284,7 @@
     </div>
     
 
-    <!-- Lightbox for full-size image viewing -->
+   
     <div id="lightbox" class="lightbox">
         <div class="lightbox-content">
             <img id="lightbox-img" src="" alt="Full size image">
@@ -333,13 +328,13 @@ function toggleMusic() {
 
 
 
-        // Google Apps Script API URL
+        
         const API_URL = 'https://script.google.com/macros/s/AKfycbyu5jN5nBbC35dGreUxqhrfePs5CxLebnprs6H3hGZHqBu7x7pwwvPnHYi31_9a1pDz/exec';
         
         let currentPhotos = [];
         let currentImageIndex = 0;
 
-        // Gallery Management
+     
         async function loadGallery() {
             const loadingElement = document.getElementById('loading');
             const galleryElement = document.getElementById('gallery');
@@ -355,7 +350,7 @@ function toggleMusic() {
                 const photos = await response.json();
                 console.log('Photos loaded:', photos);
                 
-                // Hide loading
+               
                 loadingElement.style.display = 'none';
                 
                 if (!photos || photos.length === 0) {
@@ -376,8 +371,7 @@ function toggleMusic() {
 
         function displayGallery(photos) {
             const gallery = document.getElementById('gallery');
-            gallery.innerHTML = ''; // Clear any existing content
-            
+            gallery.innerHTML = '';
             photos.forEach((photo, index) => {
                 const photoCard = createPhotoCard(photo, index);
                 gallery.appendChild(photoCard);
@@ -389,10 +383,10 @@ function toggleMusic() {
             card.className = 'photo-card';
             card.style.animationDelay = `${index * 0.1}s`;
             
-            // Handle different possible URL formats from Google Drive
+          
             let imageUrl = photo.url || photo.link || photo.downloadUrl;
             
-            // Convert Google Drive URLs to direct access format for HD quality
+          
             if (imageUrl && imageUrl.includes('drive.google.com')) {
                 const fileId = extractFileId(imageUrl);
                 if (fileId) {
@@ -406,7 +400,7 @@ function toggleMusic() {
             img.loading = 'lazy';
             img.onclick = () => openLightbox(index);
             
-            // Handle image load error
+         
             img.onerror = function() {
                 console.error('Failed to load image:', imageUrl);
                 card.style.display = 'none';
@@ -417,7 +411,7 @@ function toggleMusic() {
         }
 
         function extractFileId(url) {
-            // Extract file ID from various Google Drive URL formats
+            
             const patterns = [
                 /\/file\/d\/([a-zA-Z0-9-_]+)/,
                 /id=([a-zA-Z0-9-_]+)/,
@@ -442,14 +436,14 @@ function toggleMusic() {
             `;
         }
 
-        // Lightbox functionality
+       
         function openLightbox(index) {
             currentImageIndex = index;
             const photo = currentPhotos[index];
             
             let imageUrl = photo.url || photo.link || photo.downloadUrl;
             
-            // Convert to high quality URL
+           
             if (imageUrl && imageUrl.includes('drive.google.com')) {
                 const fileId = extractFileId(imageUrl);
                 if (fileId) {
@@ -464,7 +458,7 @@ function toggleMusic() {
             lightbox.style.display = 'block';
             document.body.style.overflow = 'hidden';
             
-            // Trigger animation
+          
             setTimeout(() => {
                 lightbox.classList.add('active');
             }, 10);
@@ -525,7 +519,7 @@ function toggleMusic() {
                     ease: "power3.out" 
                 }, "-=0.5");
 
-            // Animate gallery cards
+            
             gsap.registerPlugin(ScrollTrigger);
             
             gsap.utils.toArray('.photo-card').forEach((card, index) => {
@@ -544,12 +538,12 @@ function toggleMusic() {
             });
         }
 
-        // Initialize everything
+       
         document.addEventListener('DOMContentLoaded', () => {
             loadGallery();
         });
 
-        // Close lightbox with Escape key
+       
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 closeLightbox();
@@ -560,7 +554,7 @@ function toggleMusic() {
             }
         });
 
-        // Close lightbox when clicking outside image
+        
         document.getElementById('lightbox').addEventListener('click', (e) => {
             if (e.target.id === 'lightbox') {
                 closeLightbox();
